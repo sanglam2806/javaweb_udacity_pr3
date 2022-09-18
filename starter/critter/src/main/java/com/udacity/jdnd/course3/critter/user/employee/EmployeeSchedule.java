@@ -19,6 +19,14 @@ public class EmployeeSchedule {
 
     private String day;
 
+    public EmployeeSchedule() {
+    }
+
+    public EmployeeSchedule(Employee employee, String day) {
+        this.employee = employee;
+        this.day = day;
+    }
+
     public long getId() {
         return id;
     }

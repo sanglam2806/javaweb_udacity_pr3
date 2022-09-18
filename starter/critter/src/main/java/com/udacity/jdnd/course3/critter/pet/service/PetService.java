@@ -44,12 +44,10 @@ public class PetService {
         Customer customer = customerRepository.findById(petDto.getOwnerId())
                 .orElseThrow(CustomerNotFoundException::new);
 
-        // customerRepository.findById(petDto.getOwnerId()).map(owner -> {
-        // pet.setCustomer(owner);
-        // return petRepository.save(pet);
-        // });
         pet.setCustomer(customer);
         petRepository.save(pet);
+        List<Pet> listPets = (List<Pet>) petRepository.findAll();
+        petDto.setId(listPets.get(listPets.size() - 1).getId());
 
         return petDto;
     }
@@ -81,6 +79,7 @@ public class PetService {
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pet, petDTO);
         petDTO.setType(PetType.valueOf(pet.getType()));
+        petDTO.setOwnerId(pet.getCustomer().getId());
 
         return petDTO;
     }

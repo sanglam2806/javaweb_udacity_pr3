@@ -5,12 +5,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
@@ -23,13 +25,16 @@ public class Schedule implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity=Employee.class)
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Employee.class)
     private List<Employee> employees;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity=Pet.class)
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Pet.class)
     private List<Pet> pets;
     private LocalDate date;
-//    private Set<EmployeeSkill> activities;
+
+    @Column(name = "activities")
+    @ElementCollection(targetClass = EmployeeSkill.class)
+    private Set<EmployeeSkill> activities;
 
     public long getId() {
         return id;
@@ -63,11 +68,11 @@ public class Schedule implements Serializable {
         this.date = date;
     }
 
-//    public Set<EmployeeSkill> getActivities() {
-//        return activities;
-//    }
-//
-//    public void setActivities(Set<EmployeeSkill> activities) {
-//        this.activities = activities;
-//    }
+    public Set<EmployeeSkill> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(Set<EmployeeSkill> activities) {
+        this.activities = activities;
+    }
 }

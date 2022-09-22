@@ -12,7 +12,10 @@ import com.udacity.jdnd.course3.critter.user.CustomerDTO;
 import com.udacity.jdnd.course3.critter.user.customer.Customer;
 import com.udacity.jdnd.course3.critter.user.customer.repository.CustomerRepository;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class CustomerService {
     private CustomerRepository customerRepository;
     private PetRepository petRepository;

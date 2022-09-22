@@ -14,7 +14,10 @@ import com.udacity.jdnd.course3.critter.user.customer.Customer;
 import com.udacity.jdnd.course3.critter.user.customer.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.user.customer.service.CustomerNotFoundException;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class PetService {
     private final PetRepository petRepository;
     private final CustomerRepository customerRepository;

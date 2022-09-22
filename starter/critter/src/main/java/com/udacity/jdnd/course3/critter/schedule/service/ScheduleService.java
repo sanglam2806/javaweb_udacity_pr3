@@ -16,7 +16,10 @@ import com.udacity.jdnd.course3.critter.schedule.ScheduleDTO;
 import com.udacity.jdnd.course3.critter.schedule.repository.ScheduleRepository;
 import com.udacity.jdnd.course3.critter.user.employee.Employee;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class ScheduleService {
 
     @Autowired

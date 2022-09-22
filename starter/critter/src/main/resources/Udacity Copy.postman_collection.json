@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "90e63bdd-7252-4399-9a8f-e39fdbc01109",
-		"name": "Udacity",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "55b8f3f5-14db-4b70-94fc-3e3d106ea7c9",
+		"name": "Udacity Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12794693"
 	},
 	"item": [
 		{
@@ -134,7 +135,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8082/user/employee/1",
+					"raw": "http://localhost:8082/user/employee/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -143,7 +144,7 @@
 					"path": [
 						"user",
 						"employee",
-						"1"
+						"3"
 					]
 				}
 			},
@@ -203,7 +204,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"employeeIds\": [1],\n\t\"petIds\": [1],\n\t\"date\": \"2019-12-17\",\n\t\"activities\": [\"PETTING\", \"FEEDING\"]\n}",
+					"raw": "{\n\t\"employeeIds\": [3],\n\t\"petIds\": [2],\n\t\"date\": \"2019-12-17\",\n\t\"activities\": [\"PETTING\", \"FEEDING\"]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -237,7 +238,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8082/schedule/pet/1",
+					"raw": "http://localhost:8082/schedule/pet/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -246,7 +247,7 @@
 					"path": [
 						"schedule",
 						"pet",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -265,7 +266,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8082/schedule/employee/1",
+					"raw": "http://localhost:8082/schedule/employee/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -274,7 +275,7 @@
 					"path": [
 						"schedule",
 						"employee",
-						"1"
+						"3"
 					]
 				}
 			},
@@ -402,7 +403,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8082/user/customer/pet/1",
+					"raw": "http://localhost:8082/user/customer/pet/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -412,12 +413,11 @@
 						"user",
 						"customer",
 						"pet",
-						"1"
+						"2"
 					]
 				}
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

@@ -3,6 +3,7 @@ package com.udacity.jdnd.course3.critter.schedule;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -15,7 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import com.udacity.jdnd.course3.critter.pet.Pet;
-import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
+import com.udacity.jdnd.course3.critter.user.Skill;
 import com.udacity.jdnd.course3.critter.user.employee.Employee;
 
 @Entity
@@ -33,8 +34,11 @@ public class Schedule implements Serializable {
     private LocalDate date;
 
     @Column(name = "activities")
-    @ElementCollection(targetClass = EmployeeSkill.class)
-    private Set<EmployeeSkill> activities;
+    @ElementCollection(targetClass = Skill.class)
+    private Set<Skill> activities;
+
+    public Schedule() {
+    }
 
     public long getId() {
         return id;
@@ -68,11 +72,28 @@ public class Schedule implements Serializable {
         this.date = date;
     }
 
-    public Set<EmployeeSkill> getActivities() {
+    public Set<Skill> getActivities() {
         return activities;
     }
 
-    public void setActivities(Set<EmployeeSkill> activities) {
+    public void setActivities(Set<Skill> activities) {
         this.activities = activities;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Schedule schedule = (Schedule) o;
+        return id == schedule.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

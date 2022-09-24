@@ -1,5 +1,7 @@
 package com.udacity.jdnd.course3.critter.user.employee;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +21,6 @@ public class EmployeeSkill {
     private String skill;
 
     public EmployeeSkill() {
-        super();
     }
 
     public EmployeeSkill(Employee employee, String skill) {
@@ -49,5 +50,22 @@ public class EmployeeSkill {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        EmployeeSkill that = (EmployeeSkill) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

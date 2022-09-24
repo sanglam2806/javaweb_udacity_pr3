@@ -1,73 +1,65 @@
 package com.udacity.jdnd.course3.critter.user.customer.service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.udacity.jdnd.course3.critter.pet.Pet;
-import com.udacity.jdnd.course3.critter.pet.repository.PetRepository;
 import com.udacity.jdnd.course3.critter.user.CustomerDTO;
 import com.udacity.jdnd.course3.critter.user.customer.Customer;
 import com.udacity.jdnd.course3.critter.user.customer.repository.CustomerRepository;
 
-import javax.transaction.Transactional;
-
 @Service
 @Transactional
 public class CustomerService {
-    private CustomerRepository customerRepository;
-    private PetRepository petRepository;
+    private final CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository customerRepository, PetRepository petRepository) {
+    public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-        this.petRepository = petRepository;
     }
 
     public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
-        Customer customer = new Customer();
-        BeanUtils.copyProperties(customerDTO, customer);
-        customerRepository.save(customer);
-
-        List<Customer> customers = (List<Customer>) customerRepository.findAll();
-        customerDTO.setId(customers.get(customers.size() - 1).getId());
-
-        return customerDTO;
+        Customer customer = toEntity(customerDTO);
+        Customer saved = customerRepository.save(customer);
+        return toDto(saved);
     }
 
     public List<CustomerDTO> getAllCustomers() {
-        List<Customer> customers = (List<Customer>) customerRepository.findAll();
-        List<CustomerDTO> customerDTOs = new ArrayList<CustomerDTO>();
-        CustomerDTO customerDTO = new CustomerDTO();
+        List<Customer> customers = customerRepository.findAll();
 
-        for (Customer customer : customers) {
-            BeanUtils.copyProperties(customer, customerDTO);
-            customerDTO.setPetIds(new ArrayList<>());
-
-            List<Pet> pets = petRepository.findByCustomerId(customer.getId());
-            pets.stream().forEach(pet -> {
-                customerDTO.getPetIds().add(pet.getId());
-            });
-
-            customerDTOs.add(customerDTO);
-        }
-
-        return customerDTOs;
+        return customers.stream().map(this::toDto).collect(Collectors.toList());
     }
 
     public CustomerDTO getOwnerByPet(long petId) {
-        CustomerDTO customerDTO = new CustomerDTO();
         Customer customer = customerRepository.findByPets_Id(petId);
         if (customer == null) {
             throw new CustomerNotFoundException();
         }
+
+        return toDto(customer);
+    }
+
+    private Customer toEntity(CustomerDTO customerDTO) {
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO, customer);
+
+        return customer;
+    }
+
+    private CustomerDTO toDto(Customer customer) {
+        CustomerDTO customerDTO = new CustomerDTO();
+
         BeanUtils.copyProperties(customer, customerDTO);
-        customerDTO.setPetIds(new ArrayList<>());
-        List<Pet> pets = petRepository.findByCustomerId(customer.getId());
-        pets.stream().forEach(pet -> {
-            customerDTO.getPetIds().add(pet.getId());
-        });
+
+        List<Long> petIds = customer.getPets() == null
+                ? Collections.emptyList()
+                : customer.getPets().stream().map(Pet::getId).collect(Collectors.toList());
+        customerDTO.setPetIds(petIds);
 
         return customerDTO;
     }
